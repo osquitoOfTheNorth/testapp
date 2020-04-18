@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "679947626227",
+    "firebase_url": "https://testpushoscaroscar.firebaseio.com",
+    "project_id": "testpushoscaroscar",
+    "storage_bucket": "testpushoscaroscar.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:679947626227:android:fb615ec0c56d34161db986",
+        "android_client_info": {
+          "package_name": "githubexplorer.oscarm.com.myapplication"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "679947626227-uur3unglg5o5b1su6d83p4qf2ug45ho5.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "githubexplorer.oscarm.com.myapplication",
+            "certificate_hash": "b53ca187f68251f22c80eaad1ad3d538c34f35a9"
+          }
+        },
+        {
+          "client_id": "679947626227-fmlhj2ju7e69emddet9e5blvtln1p25d.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC2LWXwbynS32kVpWZ6mKclCndRn5PFwug"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "679947626227-fmlhj2ju7e69emddet9e5blvtln1p25d.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

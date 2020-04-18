@@ -1,0 +1,2 @@
+include ':app', ':api', ':common-android-tests'
+rootProject.name='My Application'
