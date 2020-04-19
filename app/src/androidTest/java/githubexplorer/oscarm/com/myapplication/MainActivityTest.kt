@@ -1,6 +1,8 @@
 package githubexplorer.oscarm.com.myapplication
 
 import android.content.Intent
+import androidx.test.espresso.Espresso.onView
+import androidx.test.espresso.matcher.ViewMatchers.withText
 import androidx.test.rule.ActivityTestRule
 import com.facebook.testing.screenshot.internal.ScreenshotImpl
 import githubexplorer.oscarm.com.myapplication.main.MainActivity
@@ -20,19 +22,14 @@ class MainActivityTest {
     @Test
     fun mainScreenTest() {
         val activity = activityTestRule.launchActivity(Intent())
-        activityTestRule.removeUnreliableElements()
 
         ScreenshotImpl.getInstance().snapActivity(activity).setName("Main_Activity_Starting_Screen").record()
     }
 
     @Test
-    fun searchTest() {
+    fun detailScreenTest() {
         val activity = activityTestRule.launchActivity(Intent())
-        activityTestRule.removeUnreliableElements()
-
-        editText().type("Test Search")
-        viewWithText("Search!").click()
-
-        ScreenshotImpl.getInstance().snapActivity(activity).setName("Main_Activity_Starting_Search_Results").record()
+        onView(withText("First Object Title")).click()
+        ScreenshotImpl.getInstance().snapActivity(activity).setName("Main_Activity_Starting_Detail_Results").record()
     }
 }

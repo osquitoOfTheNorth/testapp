@@ -3,13 +3,14 @@ package githubexplorer.oscarm.com.myapplication.activity
 import android.os.Bundle
 import androidx.annotation.CallSuper
 import androidx.appcompat.app.AppCompatActivity
-import githubexplorer.oscarm.com.myapplication.delegates.ActivityDelegate
+import androidx.fragment.app.FragmentActivity
+import githubexplorer.oscarm.com.myapplication.delegates.Delegate
 
 abstract class DelegatingActivity : AppCompatActivity() {
 
-    private lateinit var delegate: ActivityDelegate
+    private lateinit var delegate: Delegate
 
-    abstract fun createDelegates() : ActivityDelegate
+    abstract fun createDelegates() : Delegate
 
     @CallSuper
     override fun onCreate(savedInstanceState: Bundle?) {

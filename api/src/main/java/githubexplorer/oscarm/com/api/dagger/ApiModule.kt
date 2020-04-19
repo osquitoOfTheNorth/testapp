@@ -1,5 +1,6 @@
 package githubexplorer.oscarm.com.api.dagger
 
+import com.facebook.stetho.okhttp3.StethoInterceptor
 import dagger.Module
 import dagger.Provides
 import dagger.multibindings.IntoSet
@@ -10,7 +11,10 @@ import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.moshi.MoshiConverterFactory
+import java.time.Duration
+import java.util.concurrent.TimeUnit
 import javax.inject.Qualifier
+
 
 @Module
 class ApiModule {
@@ -28,6 +32,7 @@ class ApiModule {
     @OkHttp
     fun okHttp(interceptors: Set<@JvmSuppressWildcards Interceptor>) : OkHttpClient = with(OkHttpClient.Builder()) {
         interceptors.forEach { addInterceptor(it) }
+        connectTimeout(10, TimeUnit.SECONDS)
         return build()
     }
 
@@ -37,6 +42,10 @@ class ApiModule {
     @Provides
     @IntoSet
     fun keyInterceptor(authKeyInterceptor: AuthKeyInterceptor): Interceptor = authKeyInterceptor
+
+    @Provides
+    @IntoSet
+    fun networkInterceptor(): Interceptor = StethoInterceptor()
 
 }
 

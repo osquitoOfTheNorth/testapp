@@ -1,3 +1,8 @@
 <resources>
-    <string name="app_name">My Application</string>
+    <string name="app_name">Gifs For Rent!</string>
+    <string name="price">Price:</string>
+    <string name="rating">Rating:</string>
+    <string name="created">Created On:</string>
+    <string name="owned">Owned By:</string>
+    <string name="source">Source Url:</string>
 </resources>

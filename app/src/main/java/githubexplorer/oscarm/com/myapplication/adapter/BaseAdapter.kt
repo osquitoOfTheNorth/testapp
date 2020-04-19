@@ -6,6 +6,9 @@ import android.view.ViewGroup
 import androidx.annotation.LayoutRes
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import io.reactivex.Observable
+import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.subjects.PublishSubject
 import javax.inject.Inject
 
 class BaseAdapter<E : ViewHolderBinding> @Inject constructor(
@@ -13,8 +16,11 @@ class BaseAdapter<E : ViewHolderBinding> @Inject constructor(
     private val layoutInflater: LayoutInflater
 ) : RecyclerView.Adapter<ViewHolder>() {
 
+    private val disposables = CompositeDisposable()
+    private val clicksSubject = PublishSubject.create<Any>()
     private var list: List<E> = emptyList()
-    private var map: Map<Any, ViewHolderBinding> = emptyMap()
+
+    val clicks: Observable<*> = clicksSubject
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder =
         ViewHolder(layoutInflater.inflate(layout, parent, false))
@@ -22,13 +28,17 @@ class BaseAdapter<E : ViewHolderBinding> @Inject constructor(
     override fun getItemCount() = list.size
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        list[position].bind(holder.itemView)
+        disposables.add(list[position].bind(holder.itemView).subscribe { clicksSubject.onNext(it) })
     }
 
-    fun setData(lst: List<E>) {
-        map = lst.associateBy(ViewHolderBinding::viewType)
-        notifyDistinctChanges(list, lst) { old: E, new: E -> old.id == new.id}
-        list = lst
+    override fun onDetachedFromRecyclerView(recyclerView: RecyclerView) {
+        super.onDetachedFromRecyclerView(recyclerView)
+        disposables.dispose()
+    }
+
+    fun setData(newList: List<E>) {
+        notifyDistinctChanges(list, newList) { old: E, new: E -> old.id == new.id}
+        list = newList
     }
 }
 
@@ -58,5 +68,5 @@ class ViewHolder(view: View) : RecyclerView.ViewHolder(view)
 interface ViewHolderBinding {
     val viewType: Int
     val id: Any
-    fun bind(view: View)
+    fun bind(view: View): Observable<*>
 }

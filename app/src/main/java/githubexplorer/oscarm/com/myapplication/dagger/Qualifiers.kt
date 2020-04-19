@@ -7,3 +7,6 @@ annotation class ActivityScope
 
 @Scope
 annotation class AppScope
+
+@Scope
+annotation class FragmentScope

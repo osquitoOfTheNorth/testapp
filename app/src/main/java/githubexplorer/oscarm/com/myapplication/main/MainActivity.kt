@@ -3,20 +3,18 @@ package githubexplorer.oscarm.com.myapplication.main
 import android.app.Activity
 import android.content.Context
 import android.view.LayoutInflater
-import android.widget.Button
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.RequestManager
-import com.google.android.material.appbar.AppBarLayout
-import com.google.android.material.textfield.TextInputEditText
 import dagger.BindsInstance
 import dagger.Component
 import dagger.Module
 import dagger.Provides
 import githubexplorer.oscarm.com.myapplication.activity.DelegatingActivity
 import githubexplorer.oscarm.com.myapplication.R
+import githubexplorer.oscarm.com.myapplication.activity.FragmentActivityModule
 import githubexplorer.oscarm.com.myapplication.adapter.BaseAdapter
 import githubexplorer.oscarm.com.myapplication.app.dependencySource
 import githubexplorer.oscarm.com.myapplication.appsource.InputMethodManagerSource
@@ -25,31 +23,27 @@ import githubexplorer.oscarm.com.myapplication.dagger.ActivityScope
 import githubexplorer.oscarm.com.myapplication.dagger.AppCompatModule
 import githubexplorer.oscarm.com.myapplication.dagger.BaseComponent
 import githubexplorer.oscarm.com.myapplication.dagger.LoadingDialogModule
-import githubexplorer.oscarm.com.myapplication.delegates.ActivityDelegate
-import githubexplorer.oscarm.com.myapplication.delegates.CompositeActivityDelegate
+import githubexplorer.oscarm.com.myapplication.delegates.Delegate
+import githubexplorer.oscarm.com.myapplication.delegates.CompositeDelegates
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : DelegatingActivity() {
 
-    override fun createDelegates(): ActivityDelegate {
+    override fun createDelegates(): Delegate {
         setContentView(R.layout.activity_main)
         return DaggerMainActivityComponent.factory()
             .create(
                 dependencySource(),
-                dependencySource(),
                 this,
-                resultsListView,
-                searchPhraseHolder,
-                searchButton,
-                app_bar_detail
+                resultsListView
             ).delegates()
     }
 
 }
 
 @Component(
-    dependencies = [ViewModelSource::class, InputMethodManagerSource::class],
-    modules = [MainActivityModule::class]
+    dependencies = [ViewModelSource::class],
+    modules = [MainActivityModule::class, FragmentActivityModule::class]
 )
 @ActivityScope
 interface MainActivityComponent : BaseComponent {
@@ -57,12 +51,8 @@ interface MainActivityComponent : BaseComponent {
     interface Factory {
         fun create(
             viewModelSource: ViewModelSource,
-            inputMethodManagerSource: InputMethodManagerSource,
             @BindsInstance activity: Activity,
-            @BindsInstance recyclerView: RecyclerView,
-            @BindsInstance textInput: TextInputEditText,
-            @BindsInstance searchButton: Button,
-            @BindsInstance appBarLayout: AppBarLayout
+            @BindsInstance recyclerView: RecyclerView
         ): MainActivityComponent
     }
 }
@@ -71,15 +61,14 @@ interface MainActivityComponent : BaseComponent {
 class MainActivityModule {
     @Provides
     fun delegates(
-        mainButtonDelegate: MainButtonClickDelegate,
-        displayResultsDelegate: DisplaySearchResultsDelegate
-    ): ActivityDelegate =
-        CompositeActivityDelegate(
-            mainButtonDelegate,
-            displayResultsDelegate
-        )
+        displayResultsDelegate: DisplayResultsDelegate,
+        errors: FindGifsErrorFeature,
+        gifClick: GifClickDelegate
+    ): Delegate =
+        CompositeDelegates(displayResultsDelegate, errors, gifClick)
 
     @Provides
+    @ActivityScope
     fun adapter(
         recyclerView: RecyclerView,
         inflater: LayoutInflater,

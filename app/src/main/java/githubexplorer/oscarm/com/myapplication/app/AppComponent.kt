@@ -9,7 +9,7 @@ import githubexplorer.oscarm.com.myapplication.dagger.AppScope
 
 @AppScope
 @Component(modules = [ApiModule::class, AppModule::class])
-interface AppComponent : ViewModelSource, InputMethodManagerSource {
+interface AppComponent : ViewModelSource {
     @Component.Factory
     interface Factory {
         fun create(@BindsInstance app: App): AppComponent

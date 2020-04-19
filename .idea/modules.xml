@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/My_Application.iml" filepath="$PROJECT_DIR$/.idea/modules/My_Application.iml" group="My_Application" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/api/api.iml" filepath="$PROJECT_DIR$/.idea/modules/api/api.iml" group="My Application/api" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/app.iml" filepath="$PROJECT_DIR$/.idea/modules/app/app.iml" group="My Application/app" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/common-android-tests/common-android-tests.iml" filepath="$PROJECT_DIR$/.idea/modules/common-android-tests/common-android-tests.iml" group="My Application/common-android-tests" />
+    </modules>
+  </component>
+</project>
